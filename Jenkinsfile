@@ -1,18 +1,24 @@
 pipeline {
-    agent none 
+    agent none
     stages {
         stage('Build') {
-            agent { docker 'maven:3-alpine' } 
+             agent {
+                label "maven"
+            }
             steps {
-                echo 'Hello, Maven'
-                sh 'mvn --version'
+                echo 'Hello World'
             }
         }
-        stage('Build image') {
-            agent { docker 'trion/jenkins-docker-client' } 
+        stage('Deploy') {
+            agent {
+                label "docker"
+            }
+            when {
+                beforeAgent true
+                branch 'production'
+            }
             steps {
-                echo 'Hello, docker'
-                sh 'docker -version'
+                echo 'Deploying'
             }
         }
     }
