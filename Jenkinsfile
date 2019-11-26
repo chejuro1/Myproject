@@ -3,6 +3,7 @@ pipeline {
     registry = "chejuro/apache"
     registryCredential = 'chejuro'
     dockerImage = ''
+    package = ''
   }
   agent any
   stages {
@@ -31,6 +32,18 @@ pipeline {
       steps{
         sh "docker rmi $registry:$BUILD_NUMBER"
       }
+    }
+    stage('packaging'){ 
+      agent {
+                docker { image 'dtzar/helm-kubectl' }
+            }
+      script {
+               helm create $dockerImage
+               package = sh "helm package ./$dockerImage"
+               sh "helm install --name $dockerImage package  --set service.type=NodePort"
+               sh "helm repo add stable	https://kubernetes-charts.storage.googleapis.com/"
+          }
+        }
     }
   }
 }
