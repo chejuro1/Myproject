@@ -1,4 +1,4 @@
-node("docker") {
+node {
     docker.withRegistry('https://hub.docker.com/', 'chejuro') {
 
         git url: "https://github.com/chejuro1/Myproject.git", credentialsId: 'chejuro1'
