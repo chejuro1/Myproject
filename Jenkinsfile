@@ -1,7 +1,7 @@
 node {
     checkout scm
 
-    docker.withRegistry('https://registry.example.com', 'chejuro') {
+    docker.withRegistry('https://hub.docker.com', 'chejuro') {
 
         def customImage = docker.build("chejuro/apache:${env.BUILD_ID}")
 
