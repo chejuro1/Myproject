@@ -1,7 +1,5 @@
 pipeline {
   environment {
-    registry = "chejuro/apache"
-    registryCredential = 'chejuro'
     dockerImage = ''
     
   }
