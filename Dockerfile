@@ -1,3 +1,9 @@
-FROM node:7-alpine
+FROM ubuntu:lastest
 
-RUN apk add -U subversion
+RUN apt-get update
+RUN apt-get install apache2
+ADD index.html ./var/www/html
+EXPOSE  80
+ENTRYPOINT apache2
+
+
