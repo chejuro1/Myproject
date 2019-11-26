@@ -1,16 +1,15 @@
 pipeline {
     agent {
         docker {
-            image 'dtzar/helm-kubectl' 
-             
+            image 'maven:3-alpine' 
+            args '-v /root/.m2:/root/.m2' 
         }
     }
     stages {
         stage('Build') { 
             steps {
-                sh 'Helm create package' 
+                sh 'mvn -B -DskipTests clean package' 
             }
         }
     }
 }
-
