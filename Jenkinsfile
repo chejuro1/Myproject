@@ -1,17 +1,11 @@
 node {
-    docker.withRegistry('https://hub.docker.com/') {
+    checkout scm
 
-        git url: "https://github.com/chejuro1/Myproject.git", credentialsId: 'chejuro1'
+    ddocker.withRegistry('https://hub.docker.com/') {
 
-        sh "git rev-parse HEAD > .git/commit-id"
-        def commit_id = readFile('.git/commit-id').trim()
-        println commit_id
+        def customImage = docker.build("my-image:${env.BUILD_ID}")
 
-        stage "build"
-        def app = docker.build "myproject"
-
-        stage "publish"
-        app.push 'master'
-        app.push "${commit_id}"
+        /* Push the container to the custom Registry */
+        customImage.push()
     }
 }
